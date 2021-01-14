@@ -26,7 +26,8 @@ func (this *ToolsController) BuildJavaMVCTemplate() {
 	resultBody := this.GetString("resultBody")
 
 	if storageAddress == "" || packageName == "" || classNames == ""{
-		this.Ctx.WriteString("包名或类名不能为空")
+		fmt.Println("路径、包名、类名不能为空")
+		this.Ctx.WriteString("路径、包名、类名不能为空")
 		return
 	}
 
@@ -41,11 +42,55 @@ func (this *ToolsController) BuildJavaMVCTemplate() {
 
 	fmt.Println(javaModel)
 
-	//javaModel.Run()
+	javaModel.Run()
 
-	this.Ctx.WriteString("成功")
+	this.Ctx.WriteString("ok")
 }
 
+//http://localhost:8282/mysqlToStruct
 func (this *ToolsController) MysqlToStruct() {
 
+	storageAddress := this.GetString("storageAddress")
+	fileName := this.GetString("fileName")
+	ip := this.GetString("ip")
+	root := this.GetString("root")
+	password := this.GetString("password")
+	dbName := this.GetString("dbName")
+
+	if  ip == "" || root == "" || password == "" || dbName == ""{
+		fmt.Println("参数缺失")
+		this.Ctx.WriteString("参数缺失")
+		return
+	}
+
+	if storageAddress == ""{
+		storageAddress = "."
+	}
+
+
+	if fileName == ""{
+		fileName = "mysqlToStruct.go"
+	}
+
+	//mysqlModel := service.MysqlModel{
+	//	IP: "47.103.115.252",
+	//	Root: "root",
+	//	Password: "h5s/X_7FLkzj",
+	//	DbName: "das",
+	//	StorageAddress: ".",
+	//	FileName: "mysqlToStruct.go",
+	//}
+	mysqlModel := service.MysqlModel{
+		IP: ip,
+		Root: root,
+		Password: password,
+		DbName: dbName,
+		StorageAddress: storageAddress,
+		FileName: fileName,
+	}
+
+
+	result,_ := mysqlModel.InitMysql()
+	fmt.Println("返回结果：",result)
+	this.Ctx.WriteString(result)
 }
