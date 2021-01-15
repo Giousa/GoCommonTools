@@ -203,27 +203,27 @@ func (this *ToolsController) EncryptionData()  {
 	this.Ctx.WriteString(result)
 }
 
-//http://localhost:8282/downloadJavaMVCTemplate
+//http://localhost:8282/downloadBuildFile
 //浏览器请求成功后，会以downloadJavaMVCTemplate.zip名称下载到本地
-func (this *ToolsController) DownloadJavaMVCTemplate() {
+func (this *ToolsController) DownloadBuildFile() {
 
-	//packageName := this.GetString("packageName")
-	//nameList := strings.Split(packageName,".")
-	//
-	//var filePath string
-	//if nameList != nil && len(nameList) >0 {
-	//	///usr/local/workspace/files/com
-	//	//filePath = "/usr/local/workspace/files/zip/"+nameList[0]+".zip"
-	//	//filePath = "/usr/local/workspace/files/zip/"+nameList[0]+".zip"
-	//
-	//}
+	fileName := this.GetString("fileName")
 
 	fmt.Println("准备下载......")
 
 	//filePath := "/Users/zhangmengmeng/Downloads/temp/com.zip"
-	filePath := "/usr/local/workspace/files.zip"
+	var filePath string
+	if fileName == "files.zip"{
+		filePath = "/usr/local/workspace/"+fileName
+	}else{
+		//hello.go
+		filePath = "/usr/local/workspace/structFiles/"+fileName
+	}
+	fmt.Println("文件路径：",filePath)
+
 	f, err := os.Open(filePath)
 	if err != nil {
+		fmt.Println("文件不存在")
 		this.Ctx.WriteString("文件不存在")
 		return
 	}
@@ -232,10 +232,14 @@ func (this *ToolsController) DownloadJavaMVCTemplate() {
 	// 将文件读取出来
 	data, err := ioutil.ReadAll(f)
 	if err != nil {
+		fmt.Println("文件读取失败")
 		this.Ctx.WriteString("文件读取失败")
 		return
 	}
 
+	//fmt.Println("--------------文件内容--------------")
+	//fmt.Println(string(data))
+	fmt.Println("文件下载中...")
 	this.Ctx.WriteString(string(data))
 
 	fmt.Println("下载完毕")

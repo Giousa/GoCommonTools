@@ -10,7 +10,7 @@ func init() {
 
     //生成java MVC 模板
 	beego.Router("/buildJavaMVCTemplate", &controllers.ToolsController{},"get:BuildJavaMVCTemplate")
-	beego.Router("/downloadJavaMVCTemplate", &controllers.ToolsController{},"get:DownloadJavaMVCTemplate")
+	beego.Router("/downloadBuildFile", &controllers.ToolsController{},"get:DownloadBuildFile")
 
     //mysql导出struct
     beego.Router("/mysqlToStruct", &controllers.ToolsController{},"get:MysqlToStruct")

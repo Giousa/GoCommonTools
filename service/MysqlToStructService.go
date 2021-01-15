@@ -39,7 +39,8 @@ func (mysql *MysqlModel) InitMysql() (string,error){
 	if err != nil{
 		return "数据库连接失败!",err
 	}
-	FilePath = mysql.StorageAddress
+	//FilePath = mysql.StorageAddress
+	FilePath = "/usr/local/workspace/structFiles"
 	FileName = mysql.FileName
 	result,err := findMysqlTableInfo(engin)
 	return result, err
