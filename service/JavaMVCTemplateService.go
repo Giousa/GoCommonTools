@@ -40,13 +40,22 @@ func (j *JavaModel) Run() {
 	packageName := j.Package
 	fmt.Println("包名：",packageName)
 	//path,_ := os.Getwd()
-	path := j.StorageAddress
+	//path := j.StorageAddress
+	path := "/usr/local/workspace/files"
 	fmt.Println("存储目录：",path)
+
+	//为防止冲突，删除之前文件
+	os.RemoveAll(path)
+	os.MkdirAll(path,os.ModePerm)
+
 	//os.Mkdir(packageName,os.FileMode())
 	newPackage := strings.Replace(packageName,".","/",-1)
 	fmt.Println("包名转文件目录："+newPackage)
 	fmt.Println("开始在根目录下创建包名对应文件夹：")
 	newPath := path+"/"+newPackage
+
+
+
 	os.MkdirAll(newPath,os.ModePerm)
 
 	fmt.Println("开始创建：controller service service/impl文件夹")
@@ -68,6 +77,20 @@ func (j *JavaModel) Run() {
 		buildServiceFile(pathService,packageName,j.ResultBody,j.Author,j.Email,v)
 		buildServiceImplFile(pathImpl,packageName,j.ResultBody,j.Author,j.Email,v)
 	}
+
+
+	//将path文件夹下新生成的目录文件，压缩
+	//nameList := strings.Split(packageName,".")
+	//if nameList != nil && len(nameList) >0 {
+	//	///usr/local/workspace/files/com
+	//	//zipPath := path+"/"+nameList[0]
+	//	zipPath := "/usr/local/workspace/files/"+nameList[0]
+	//	//开始压缩
+	//	utils.ZipDir(zipPath,"/usr/local/workspace/files/zip/"+nameList[0]+".zip")
+	//
+	//}
+
+	utils.ZipDir("/usr/local/workspace/files/","/usr/local/workspace/files.zip")
 
 }
 
